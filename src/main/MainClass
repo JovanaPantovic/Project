@@ -1,0 +1,58 @@
+package main;
+
+import java.util.Scanner;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import page.test.AddPostTest;
+import page.test.DeleteAndEditPostTest;
+import page.test.HomePageTest;
+import page.test.LogInTest;
+import page.test.RegistrationTest;
+
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		WebDriver dr = new ChromeDriver();
+		dr.manage().window().maximize();
+		
+		try {
+			
+			HomePageTest.openHomePage(dr);
+
+			System.out.println("If you want to register and log in write 1");
+			System.out.println("If you want data to add files from Excel table write 2");
+
+			int choice = sc.nextInt();
+			switch (choice) {
+			case 1:
+				RegistrationTest.fillFormManual(dr);
+				LogInTest.logInManual(dr);
+				AddPostTest.AdPostManual(dr);
+				DeleteAndEditPostTest.editPostManual(dr, 0);
+				break;
+			case 2:
+				RegistrationTest.testWithAllData(dr);
+				LogInTest.testWithAllData(dr);
+				LogInTest.logInAutomation(dr, 3);
+				AddPostTest.AutomationTestWithAllData(dr);
+				DeleteAndEditPostTest.deletePost(dr, 0);
+				DeleteAndEditPostTest.deletePost(dr, 0);
+				break;
+			default:
+				System.out.println("Error!");
+			}
+			
+	
+	} catch (Exception e) {
+		e.printStackTrace();
+	}finally {
+		dr.quit();
+	}
+	}
+
+}
