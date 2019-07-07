@@ -1,0 +1,129 @@
+package page.objects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+public class AddPost {
+	
+	public static final String DASHBOARD_URL = "http://localhost/izlet/dashboard.php#";
+	private static final String MAKE_A_POST_BUTTON = "//a[contains(text(),'Make a post')]";
+	private static final String TITLE = "//input[@placeholder='Naziv']";
+	private static final String LOCATION = "//input[@placeholder='Lokacija']";
+	private static final String BROWSE = "//*[@id=\"image\"]";
+	private static final String IMAGE = "C:\\Users\\Jo\\Desktop\\Projekat\\projekat\\Capture.PNG";
+	private static final String DROPDOWN_LIST = "//div[@class='popupPost']//select[@name='transport']";
+	private static final String DESCRIPTION = "//textarea[@placeholder='Opis']";
+	private static final String POST = "//div[@class='popupPost']//input[@name='postSubmit']";
+	
+	
+	public static void openDashbord (WebDriver dr) {
+		dr.get(DASHBOARD_URL);
+	}
+	
+	public static void navigateToPost(WebDriver dr) {
+		dr.navigate().to(DASHBOARD_URL);
+	}
+	
+//Make a post	
+	public static WebElement getMakeAPostButton (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(MAKE_A_POST_BUTTON));
+		return wb;
+	}
+	
+	public static void clickMakeAPostButton (WebDriver dr) {
+		getMakeAPostButton(dr).click();
+	}
+	
+//Title	- fild Naziv
+	public static WebElement getTitle (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(TITLE));
+		return wb;
+	}
+	
+	public static void clickTitle (WebDriver dr) {
+		getTitle(dr).click();
+	}
+
+	public static void sendKeysTittle (WebDriver dr, String str) {
+		getTitle(dr).sendKeys(str);
+	}
+	
+//Location - fild Lokacija
+	public static WebElement getLocation (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(LOCATION));
+		return wb;
+	}
+	
+	public static void clickLocation (WebDriver dr) {
+		getLocation(dr).click();
+	}
+
+	public static void sendKeysLocation (WebDriver dr, String str) {
+		getLocation(dr).sendKeys(str);
+	}
+	
+//Browse
+	public static WebElement getBrowse (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(BROWSE));
+		return wb;
+	}
+	
+	public static void clickBrowse (WebDriver dr) {
+		getBrowse(dr).click();
+	}
+	
+//Image
+	public static void sendKeysImage (WebDriver dr) throws Exception {
+		C:
+		getBrowse(dr).sendKeys(IMAGE);
+		Thread.sleep(3000);
+		
+	}
+	
+//choose option from a drop-down list
+	public static WebElement getList (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(DROPDOWN_LIST));
+		return wb;
+	}
+	
+	public static void chooseTransport (WebDriver dr, String transport) throws Exception {
+		Select s = new Select (getList(dr));
+		s.deselectByVisibleText(transport);
+		Thread.sleep(3000);
+	}
+	
+	public static void selectList(WebDriver dr, String choice) {
+		Select list = new Select(getList(dr));
+		list.selectByVisibleText(choice);
+		
+	}
+	
+//Description - field Opis
+	public static WebElement getDescription (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(DESCRIPTION));
+		return wb;
+	}
+	
+	public static void clickDescription (WebDriver dr) {
+		getDescription(dr).click();
+	}
+	
+	public static void sendKeysDescription (WebDriver dr, String str) {
+		getDescription(dr).sendKeys(str);
+	}
+	
+//Post button	
+	public static WebElement getPost (WebDriver dr) {
+		WebElement wb = dr.findElement(By.xpath(POST));
+		return wb;
+	}
+	
+	public static void clickPost (WebDriver dr) {
+		getPost(dr).click();
+	}
+}
+	
+	
+	
