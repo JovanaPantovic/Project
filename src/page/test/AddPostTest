@@ -1,0 +1,117 @@
+package page.test;
+
+import java.util.Scanner;
+
+import org.openqa.selenium.WebDriver;
+
+import page.objects.AddPost;
+import page.objects.Registration;
+import utility.Constant;
+import utility.ExcelUtils;
+
+public class AddPostTest {
+	
+// Method to post through console by user
+	public static void AdPostManual (WebDriver dr) throws Exception {
+		Scanner sc = new Scanner (System.in);
+		
+		LogInTest.logInManual(dr);
+		AddPost.clickMakeAPostButton(dr);
+		
+//Add title
+		System.out.println("Write a tittle: ");
+		AddPost.clickTitle(dr);
+		AddPost.sendKeysTittle(dr, sc.next());
+		
+//Add location
+		System.out.println("Write a location: ");
+		AddPost.clickLocation(dr);
+		AddPost.sendKeysLocation(dr, sc.next());
+		
+//Click Browse
+		AddPost.getBrowse(dr);
+		//AddPost.clickBrowse(dr);
+		
+//Attach file
+		System.out.println("Attach document: ");
+		AddPost.sendKeysImage(dr);
+		
+//Choose transport
+		System.out.println("Choose transport: Walk/Car/Motobike/Bicycle/Bus");
+		String choice = sc.next();
+		AddPost.selectList(dr, choice);
+		
+//Add description
+		System.out.println("Write description: ");
+		AddPost.clickDescription(dr);
+		AddPost.sendKeysDescription(dr, sc.next());
+		Thread.sleep(1000);
+
+//Click Post Button
+		AddPost.clickPost(dr);
+		Thread.sleep(5000);
+
+	}
+	
+// Method to post using data from Excel file
+	public static void fillFormAutomation(WebDriver dr,int i) throws Exception {
+		if (i > 0) {
+		String data;
+		
+//Call the method that puts the Excel file and the Sheet name
+		ExcelUtils.
+		setExcelFile (Constant.Path_TestData+Constant.File_TestData,Constant.SHEET_NAME_2);
+
+//Title
+		AddPost.clickMakeAPostButton(dr);
+		AddPost.clickTitle(dr);
+		data=ExcelUtils.getCellData(i, 1);
+		AddPost.sendKeysTittle(dr, data);
+		
+//Location
+		AddPost.clickLocation(dr);
+		data=ExcelUtils.getCellData(i, 2);
+		AddPost.sendKeysLocation(dr, data);
+		
+//Image
+		//AddPost.clickBrowse(dr);
+		AddPost.sendKeysImage(dr);
+		
+//Transport
+		AddPost.selectList(dr, "CAR");
+		
+//Description
+		AddPost.clickDescription(dr);
+		data = ExcelUtils.getCellData(i,0);
+		AddPost.sendKeysDescription(dr, data);
+		
+//Post Button
+		AddPost.clickPost(dr);
+		if (dr.getCurrentUrl().equals(AddPost.DASHBOARD_URL)) {
+			System.out.println("Successful posting.");
+		} else
+			System.out.println("Problem with posting.");
+		}
+	 else {
+		System.out.println("Wrong input data.");
+	}
+	}
+
+//Method to post posts using all data from Excel file
+	public static void AutomationTestWithAllData(WebDriver dr) throws Exception {
+	
+		ExcelUtils.setExcelFile(Constant.Path_TestData+Constant.File_TestData,Constant.SHEET_NAME_2);
+
+
+		for (int i = 1; i < ExcelUtils.getWorkSheet().getLastRowNum()+1; i++) {
+			fillFormAutomation(dr, i);
+		}
+		
+		if (dr.getCurrentUrl().equals(AddPost.DASHBOARD_URL)) {
+			System.out.println("Posts are successfully set.");
+		} else
+			System.out.println("Posts are not set.");
+	}
+		
+		
+	}
